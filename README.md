@@ -130,7 +130,8 @@ AI-Invoice-Processing/
 
 _Add a screenshot of your complete n8n workflow._
 
----
+---<img width="1285" height="416" alt="Screenshot 2026-08-01 180023" src="https://github.com/user-attachments/assets/9769eba8-964b-4479-bfee-015a56edd240" />
+
 
 ### Google Drive Trigger
 
