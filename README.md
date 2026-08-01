@@ -128,27 +128,20 @@ AI-Invoice-Processing/
 
 ### Workflow
 
-_Add a screenshot of your complete n8n workflow._
-
 ---<img width="1285" height="416" alt="Screenshot 2026-08-01 180023" src="https://github.com/user-attachments/assets/9769eba8-964b-4479-bfee-015a56edd240" />
 
 
 ### Google Drive Trigger
 
-_Show the folder where invoices are uploaded._
+---<img width="1590" height="731" alt="Screenshot 2026-08-01 180037" src="https://github.com/user-attachments/assets/84a477a4-ed5a-4dc9-bfe9-87e7b7000412" />
 
----
 
 ### Gemini AI Extraction
-
-_Show the AI output after analyzing an invoice._
 
 ---<img width="1903" height="897" alt="Screenshot 2026-08-01 180116" src="https://github.com/user-attachments/assets/28fcd67d-ae25-4821-83f7-4c53a8aa9838" />
 
 
 ### Google Sheets Output
-
-_Show the extracted invoice information saved in Google Sheets._
 
 ---<img width="1918" height="910" alt="Screenshot 2026-08-01 180141" src="https://github.com/user-attachments/assets/b1b81100-f3c4-4323-8618-7fafc66d03fd" />
 
