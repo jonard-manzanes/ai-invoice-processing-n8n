@@ -1,0 +1,707 @@
+{
+  "name": "AI Invoice Data Entry Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        80,
+        -112
+      ],
+      "id": "8753e4a2-7e30-419f-ac70-7c65f80396c0",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "batchSize": 5,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        528,
+        -112
+      ],
+      "id": "7d9f50a0-0613-4654-b032-26d442aaf4e9",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "operation": "move",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('Download file').item.json.id }}",
+          "mode": "id"
+        },
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1Pho8aOAjMiu8a68DqfWPj2uQzdGxCsgs",
+          "mode": "list",
+          "cachedResultName": "Completed",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1Pho8aOAjMiu8a68DqfWPj2uQzdGxCsgs"
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1856,
+        -240
+      ],
+      "id": "534cbaad-6c01-4fe8-9184-e6570b6086c2",
+      "name": "Move file to Completed",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Ixs1cecEqoha8RyB",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "move",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('Download file').item.json.id }}",
+          "mode": "id"
+        },
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1Y6d97shInauVxB0jZEZtK8UHO89dndau",
+          "mode": "list",
+          "cachedResultName": "Manual Review",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1Y6d97shInauVxB0jZEZtK8UHO89dndau"
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1632,
+        -48
+      ],
+      "id": "43341e75-fcb5-4326-87a0-d7ca70b765d4",
+      "name": "Move file to Manual Review",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Ixs1cecEqoha8RyB",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1bq-IhXoJ869AXF6lITTmsPPw65BZi5xZygZi5UeYxsw",
+          "mode": "list",
+          "cachedResultName": "Invoices System",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bq-IhXoJ869AXF6lITTmsPPw65BZi5xZygZi5UeYxsw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Invoices",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bq-IhXoJ869AXF6lITTmsPPw65BZi5xZygZi5UeYxsw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Invoice No": "={{ $json.invoice_number }}",
+            "Vendor": "={{ $json.vendor }}",
+            "Date": "={{ $json.invoice_date }}",
+            "Subtotal": "={{ $json.subtotal }}",
+            "Tax": "={{ $json.tax }}",
+            "Total": "={{ $json.total }}",
+            "Currency": "={{ $json.currency }}",
+            "Confidence": "={{ $json.confidence }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Vendor",
+              "displayName": "Vendor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Invoice No",
+              "displayName": "Invoice No",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Subtotal",
+              "displayName": "Subtotal",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tax",
+              "displayName": "Tax",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Total",
+              "displayName": "Total",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Currency",
+              "displayName": "Currency",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Confidence",
+              "displayName": "Confidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1632,
+        -240
+      ],
+      "id": "e318dc61-5148-4eaa-b441-d19b2fce5f41",
+      "name": "add info to Invoices Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "fbn1B7hSaVVzDLjo",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "a3707d03-1ea2-4c62-8d54-2c06df65ba18",
+              "leftValue": "={{$json.confidence}}",
+              "rightValue": 0.9,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1408,
+        -144
+      ],
+      "id": "a822b445-961a-417d-aa3c-c4abbc9afb39",
+      "name": "check for Confidence"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $json.id }}"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        784,
+        -144
+      ],
+      "id": "31f00e53-680a-4576-9f70-35813c3d2fea",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Ixs1cecEqoha8RyB",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "searchMethod": "query",
+        "queryString": "'1I_ErORAk_e5g45ci9_aToXewmWRxVgAc' in parents and trashed = false",
+        "returnAll": true,
+        "filter": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        304,
+        -112
+      ],
+      "id": "91fcbe57-3f37-4126-a221-a8e56491dd20",
+      "name": "Search files and folders",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Ixs1cecEqoha8RyB",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "document",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-3.6-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-3.6-flash"
+        },
+        "text": "You are an invoice extraction assistant.\n\nRead the attached invoice.\n\nExtract:\n\n- invoice_number\n- invoice_date\n- vendor\n- customer\n- subtotal\n- tax\n- total\n- currency\n- confidence\n\nReturn ONLY valid JSON.\n\nNo markdown.\nNo explanation.\nNo ```json.",
+        "inputType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        1008,
+        -144
+      ],
+      "id": "7e13e7c5-e706-4e6e-83ff-d03374f98140",
+      "name": "Analyze document",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "1TcP7bAlKOq4Qq1o",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the JSON text returned by Gemini\nconst text = $json.content.parts[0].text;\n\n// Convert the JSON string into an object\nconst invoice = JSON.parse(text);\n\n// Return it to n8n\nreturn {\n  json: invoice\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1216,
+        -144
+      ],
+      "id": "89855334-325a-440d-befd-2740aa2d2c51",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1bq-IhXoJ869AXF6lITTmsPPw65BZi5xZygZi5UeYxsw",
+          "mode": "list",
+          "cachedResultName": "Invoices System",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bq-IhXoJ869AXF6lITTmsPPw65BZi5xZygZi5UeYxsw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 408478962,
+          "mode": "list",
+          "cachedResultName": "Logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bq-IhXoJ869AXF6lITTmsPPw65BZi5xZygZi5UeYxsw/edit#gid=408478962"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Invoice Number",
+              "displayName": "Invoice Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Vendor",
+              "displayName": "Vendor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Confidence",
+              "displayName": "Confidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Error Reason",
+              "displayName": "Error Reason",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2064,
+        -48
+      ],
+      "id": "cfc42ab8-0b64-4fc1-8bb5-4f8162f33664",
+      "name": "Add Logs info",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "fbn1B7hSaVVzDLjo",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "jonard.manzanes@evsu.edu.ph",
+        "subject": "Need review",
+        "emailType": "text",
+        "message": "Need review Invoice ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1856,
+        -48
+      ],
+      "id": "d42b1a08-4068-46f9-8e41-4744199b5b18",
+      "name": "Notify through Email",
+      "webhookId": "e791094f-9d5a-48a4-978d-808ac7a525be",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "iobsP94EEvUN6nVl",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Code in JavaScript": [
+      {
+        "json": {
+          "invoice_number": "INV-44102",
+          "invoice_date": "15/08/2026",
+          "vendor": "ANCHOR PLUMBING SERVICES",
+          "customer": "Patricia Holm",
+          "subtotal": 485,
+          "tax": 0,
+          "total": 485,
+          "currency": "USD",
+          "confidence": 0.98
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Analyze document": [
+      {
+        "json": {
+          "content": {
+            "parts": [
+              {
+                "text": "{\n  \"invoice_number\": \"INV-44102\",\n  \"invoice_date\": \"15/08/2026\",\n  \"vendor\": \"ANCHOR PLUMBING SERVICES\",\n  \"customer\": \"Patricia Holm\",\n  \"subtotal\": 485.00,\n  \"tax\": 0.00,\n  \"total\": 485.00,\n  \"currency\": \"USD\",\n  \"confidence\": 0.98\n}",
+                "thoughtSignature": "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"
+              }
+            ],
+            "role": "model"
+          },
+          "finishReason": "STOP",
+          "index": 0
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "content": {
+            "parts": [
+              {
+                "text": "{\n  \"invoice_number\": \"INV-10982\",\n  \"invoice_date\": \"2026-01-07\",\n  \"vendor\": \"Studio Shodwe\",\n  \"customer\": \"Robert Langdon\",\n  \"subtotal\": 700.00,\n  \"tax\": 35.00,\n  \"total\": 735.00,\n  \"currency\": \"USD\",\n  \"confidence\": 0.95\n}",
+                "thoughtSignature": "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"
+              }
+            ],
+            "role": "model"
+          },
+          "finishReason": "STOP",
+          "index": 0
+        },
+        "pairedItem": {
+          "item": 1
+        }
+      },
+      {
+        "json": {
+          "content": {
+            "parts": [
+              {
+                "text": "{\n  \"invoice_number\": \"INV-90210\",\n  \"invoice_date\": \"15/05/2026\",\n  \"vendor\": \"APEX DIGITAL STUDIO\",\n  \"customer\": \"Mark Vance\",\n  \"subtotal\": 500.00,\n  \"tax\": 40.00,\n  \"total\": 540.00,\n  \"currency\": \"USD\",\n  \"confidence\": 0.95\n}",
+                "thoughtSignature": "EsQcCsEcARFNMg/EJlQs+BOVS8t0qOXDiCRN5QwfcIonzQnfxgUuIGmoKNj0LL8V9riIzQjQnX9o+XJIKdGJDb1fIB564vdPVrsw+qtaRj7U/tHyclJAVWhCyxpmnGH4DO0ZKwVNBAGI7xXm3fS2Rf+WdsHktttlD6Qm5GZZFkLATkjnDXxP1KFfTqamHlEXBAt1tanS0i9SnkW5iGF0E5Op0qkkaAPmyP+63UsoXgkfIu3EzCPyfZay5v0rbiJj7Cl+B+35YfO16Ru5GnIKra/6CYQWAENFGlK690naYv9QTS6s+GU4+poIQdNndHcZjc3c55wVeqsDBhhfPqETVXNEXVw7INd8wMCGktDb/6Zcm9108OHhYq3t1VsOMJDpzsoNi+7ljluBNPJG+pcvJgnJMCx/lkHWjwq/fJ6X8KUk/h2sMmzE4hX61+tKoDrKmrSvPYzmL3mwyz7nxMJhCFmADPvlgZDfNkkfCvwGPOX2CODddSR+i6au4K+OSaNxEUmuq07du2Iv91V4HZfETxUROAdCcuzH/F+yoJFM4hNtgY2bk/GQ/2SbiRNz8KeHK+zzGGW/U6pkmcVV0Qzux7F7eeAxqkKlo4WWqS/k90T776qLzePo4K/IIiVTiKEnf5PL44LwuRLQefGKjiEG0AeKRMBMzC4lAlJKZhL/yzmAp9sspbRYdWqnsSMY13NR2QDMuAVoVyDghyZFU/GIWkscz07B1sviKrbAhIXLJ+LSPF9ZgNF85ODhJWVuOT+knnCAEBshxp8ftfDjX92JAZVSWIh6O9ZPSNYo8WXxcabcG2bYpEDz5nf5G6yrM1YTVf2NRGV1hW7nPKd6qtnPgzBdpt7lG5y7FLmQ4QonSZduiH+KG9OPxhivzzASYG2J8xK4xdvM4bgkurAXojMUn48LgJOdF3wBDXcA88LV8kn5jiFBeOtZC2nwR3KCo0KFraf6GqD0neENKfx0W3/SvCccrAZU8A8Ro4A5NRcDH9jox5mj/EqMZYCqTzz1K6tnDm16QbqKR5ykNhysTr1q9I2ZFI/pijpCOWvSU0ciTnrIZXcyZPja2r57qK2mwRtaDXLVFH+fwi6aVFCQd/RfJpmv/TsKfE/IdTnyvOCZasGRu3QN2j581wfga3cMoVguDAYlvsRr5E1TcXk53aUHKPCyV+dwDN/EhrSUb5Ehx4AwqMVugR9xiTpiK7goCVLAhtueRJ8WDgDjVQGkXmXEL+krcygSS6R7R3dYc9lXhCLF3rdf4KYfoWW/5as0xB8VZFuSc7apk86QBVId+4ApGpgMYBedR8UF88aBljuUIUEJfX1ZZOaK8h+5rF3yXBXaLPIotERJagh3SLa9ap//Itxl0tzl4X5zVa++vo9GmquzAYXNtiDInQJnYC4JvCnduKJTo3zxAXp0U1qXcbxru0bCi8ZKyv20E0rSCGSeXGw10TslYH/cYN0bGwaxfGyDtWVVbI4vYGNxzvqj4Yw0AgfS0ogKT5iMaS9UE2wVZfsd5zHEEV/U7NQJIaAFxZHo3QsA9Qddzjk48SoXVBEO9qvtRzomw/0TgDhb9b9i5Umc92MqYQ+a0JU173JcJwwrzus0i6jjVZZWW41wZRDwqH/U18AxhJSvrpvZPdedNr69GX9xZFb4GqdGk9I7JZQMa10DvNd9FKY/Xmo5uW2csTt0Njrh2MRE6xCs2PobS66WrjN3gjV6Xlu7HaA6f9BtkZ8QIdDYqVb1omFTAGIrZT2lLRiWmLqI/pf/A33xeKtNYlgqaXvDL2KPhQ4puZnzvzEPmR8mVzcIlD86go6lrI5bUGKwe1YO2Y5ykF4MfMNwCs2hlmCLN9rkFqF8xjqnRuoKWjzFM9rFvfQUlFoN9hUfnZFFTeA7muUde9XLSqiWg5B06HGFOksI+aseFvSDab1IwRihFKV9N+mehrtxKxV7UPgdC/HpoTvYYPkbubUrYQyqBZrm8sIf6pxRxC/4nWs4IFZxEBps9o5c2ibMjBsogOvNSol4GnqniE2zCfm9f4NPmiCjFIDTnyq12j6lhURqk7kv+o2k0h2dguUkrJ7dIWy0f2b3cTf40Qbb61nqS0R/2QSyfoGCem5W1GpB8pKMkSkC3ICs1r6lkjyH5Kt7uOBCTx8/kGuUKaRdoQG4bdimG0RO2prxEm04e/DCmfh+lQdKUR/qv/6DlW42VZEEYLSpvpIqr8qE2D1lYsKBMtoJrPusekOp/Z3tBoPaJv3tyuxj4HubF55ib4cwePoF7g7n9fMNiIW/bo8HBxdwJkxh7Zr0cpJVM+mt+inLa7pciuK4o/LNK8HhBYrYum6K0FTXCFJm8/Hu2PNStO6LnvwGPpSybM99vPtfAAPmxA7/d07VDxYCx04HLwB51YLInyjm/MhnVnVfbgxr5IsTrpfqKtiUkUn8qDkMB3n7M4t/SKyUkm9pW5Ksq8lNOGexIQMSDYtTcrUVOKIu072YhPr1+dYxZmfvpwXEWU2FRbjoBmr6LzFE8OLGJVOQJOcqIvtZWT0U9x9QZDNeWmEAd/nKcA7ihkhxVEbPh/WF7elYEaIl/4z6C089tCW6szZMEb9+gtBq1v9VpGoDadZOccNbjSdHJCZI/rk+36QfeW8f2ZKGodWuF0vh9XMK2Ltn1ZaQGtE39lx9h9XHFvGuQt4kCSj9HOY0k/zSY8j4b4Py6lTZ/r+04tX+vuxXauZv6+XKJfKP+Y6O6vcKWkOauojMfoiAsGYJn//JXX/uDDSThK4E30IdlfGkEJ75gXVd7zzG+MdHQAZDgeNC8V5RYmCRpY18y5KfXvSjMAjRJt0AzgLmKT4D0IW3FU+m9sa5WQ3hhq/Lq7ENe8P6ZsUyBp8S54mTtUZIhrtLd/yQSc/3PVJ0BW6l7R+5g2caApSJMsW66BaSVyLKy8cgpD5bpheV8QouNeCg7LXg3kRVNvHXf4O8C93dxoxaYGWXqOWFHoVf6rJuxpvC6g+hHQc8ac/y7TqKd0Zq3nxWipCjRgDCUtCrXIpKmZddSbkNKPFR7TfO+y4GSkDzmbo8ZoxcPRWyjPeHpALQm3Sce5U7T9ocZXsdWWCBR9N5FMoRqHeDDPRE/RSVU1bvT2YJ7flAsmLFw1KtJrQcI7j/VyQH8YysAZZIWb/i0fFypjJeFC9SJfBa8MPnPhHl2ygSZXWKKSIWP5ovugQuLFm175I2xNUYiUSny1e2Ptkx0FF7lcB69ozHGw8hQYmLribRySnyhJBkPDiVKz5fdUNmIvBsMFByDZqsBq7DFhX3F0/F9HeQvYUXxt+VdL52TOKgbGMDmfRS09mxsCsPMJAw+D9WjDlp4Ye2qYkN0OTWx2TktX/t8+2gWj6ed4JUIhQZ538tCxV0XTdnpViBUTGrH+aOUofdoOxcvBRlqSjPAP3JFtRP7SqrdR39y6m+3kfzEypJceW9vav0ba+LYDkvd+3EnaVZcKcez0LqCRB1zanU2ChZktoRHcAsMgbpG0iDjpbst1kjxG54HTRvR0lZy62YrAxfW87mpLVlaL25yb1RIee5QlCWSCfPevwe5FUa1o8lOlVXYmYtF8ks+rbgAsMeteFa1W0XnWzIjdcmaofVpIsOn1dgvDJL5/ELQmwFWAId43TJJtUlEbjGCT0QH5hOwzjxB9dcZ9igUhHAKO77RweZOCAKJkXmlpsHG1ZPJDX6hGT4EskPuk3DcwSK4G/NPq5gaXRGheMozNb65E+ImjmEtjgLn8uWlxwHorqzym+Ozt4eoMUT1eoM0OO30uy3OxwAaQDlU7u8QVl1FGm2g0M6sYfNvVNk7qibKwYlvbjlEA0ouAVJ5LAHd2TeRxtkmqflbPBGpR450FiUG7cOSHbbLyfLo8feV3X9ONFexkoZ9Vf1YFBWuK+ja3phXmjb7EiOygMPK+OcVddzZ0dQUovD09B6uJxzyPDIWIxAlpTJKuAYUQ1n8PWACFYnps7+KgiZfeK0MtETAfVI7Rv+4j42tl7B0UJix8pcjrLaeGaVnmTfgr1cKMUn8A3KxrhmMq3Ca4VU6dzwzWrv75BZTxD9U88kipvTDY3fPaQNQLD+sdUfPEXw3gJrdsOm9mNPlpWsNTVJG0g7HPR94CAPPjsEKnHjAkd++32c0bFF9WMYp+S1mQrDJGJhO4NAjKRZE6CKvZm+K9wF2Y8G58SSER2qrcR/8/gRKaEyKGfeGXrocqomIcSS69I/KnAqYnN2EG7pp6XibLN2eHr78JDnzLydJGAe8TfnIUE73dQBbFMx14FFAY02Fg0WhQdDg5Dd2s2+YrxoICtn26NsiVOkBkI0mIli2wD/CxNspi12EVvcBmEM6AWyjpoofOK1Ip/3NEeb6W+/FTgI+zv9xoAkPws764If0MzgV/6UCY082xxw0yJmeXxew8n4SJ0R0D7UmVvPOAnzTfenFXTdS/cDb5aD4gS8dE4hC0R70sef7MdXX0LCa9hMiTNjRyUeq3QyGAlu48I5RxbgaQYRjCADpFIWg3pSzaOW7taRu032DsDRa6Qodcf2EyeZen7p9zdBHodG7tDEEfZSDFZQW0HlHTQbVPmz8U6jKd4KMCp8ufLHtEI/GIOHRbajQvdEgIAdM4miupIchSfhrxVp+gxzI4IQpCbuUZFR5fxKG05nLdSK2+b2IpaLiE+G+Szki84Ocp1WwDhwJZEBc38aAxzUBZPkJuujao77hdNSkXi1dONsOxOsPRxX60xxBTQEF1bdWROXPbsC3DR6xIcrrzQ7vUg1GpuTKCZ94fpFsY24TnWwHxpnlN6ow5B74jHpneHTkkNUR/jSpPE4Eu3Ma702SXwTVHZiQOHvGVVwZpa3hqUtcpyVNi/rDju1VUjiT/0ela1hutN93A=="
+              }
+            ],
+            "role": "model"
+          },
+          "finishReason": "STOP",
+          "index": 0
+        },
+        "pairedItem": {
+          "item": 2
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Search files and folders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Move file to Completed": {
+      "main": [
+        []
+      ]
+    },
+    "Move file to Manual Review": {
+      "main": [
+        [
+          {
+            "node": "Notify through Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "add info to Invoices Sheet": {
+      "main": [
+        [
+          {
+            "node": "Move file to Completed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check for Confidence": {
+      "main": [
+        [
+          {
+            "node": "add info to Invoices Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Move file to Manual Review",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Analyze document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search files and folders": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze document": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "check for Confidence",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify through Email": {
+      "main": [
+        [
+          {
+            "node": "Add Logs info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "bab33b92-eb79-48a9-bf00-dfd948a7f5fc",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9d6763ff330085d2432533e04b41e2a35da6652e96cd5cb0a321ff6523436801"
+  },
+  "nodeGroups": [],
+  "id": "3Od9Jrx4Ry3EpaKt",
+  "tags": []
+}
