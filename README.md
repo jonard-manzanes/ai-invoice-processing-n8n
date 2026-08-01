@@ -143,19 +143,15 @@ _Show the folder where invoices are uploaded._
 
 _Show the AI output after analyzing an invoice._
 
----
+---<img width="1903" height="897" alt="Screenshot 2026-08-01 180116" src="https://github.com/user-attachments/assets/28fcd67d-ae25-4821-83f7-4c53a8aa9838" />
+
 
 ### Google Sheets Output
 
 _Show the extracted invoice information saved in Google Sheets._
 
----
+---<img width="1918" height="910" alt="Screenshot 2026-08-01 180141" src="https://github.com/user-attachments/assets/b1b81100-f3c4-4323-8618-7fafc66d03fd" />
 
-### Error Logging
-
-_Show the Error Log sheet capturing failed invoices._
-
----
 
 ## 🚀 Future Improvements
 
@@ -163,7 +159,6 @@ _Show the Error Log sheet capturing failed invoices._
 - Duplicate invoice detection
 - Confidence score validation
 - Approval workflow
-- Email notifications
 - QuickBooks integration
 - SAP integration
 - Multi-currency support
